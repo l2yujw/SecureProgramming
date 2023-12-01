@@ -1,0 +1,8 @@
+* Basic
+
+    TLS_ECDHE_RSA_AES256_SHA256
+    Protocol_Key Exchange_Signature Authentication Algorithm_Encryption Algorithm_Hashing Algorithm
+
+    암호화 -> 단반향 암호화 -> Hash -> MAC, HMAC -> MDC
+          -> 양방향 암호화 -> 대칭 키 암호 -> 블록 암호 -> 스트림 암호
+                         -> 비대칭 키 암호 -> 소인수 분해(RSA, Rabin) -> 타원곡선(ECC, ECDSA)
