@@ -1,0 +1,21 @@
+* DiffieHellman
+
+    @ RFC 7917를 살펴보면 ffdhe2048의 p, g의 값이 명시되어 있습니다.
+    @ p를 선택할 때, p가 g와 나눠 떨어지면 안됩니다.
+    [Step01] Alice와 Bob이 하나의 Prime Number인 g를 선택합니다.
+    [Step02] Alice와 Bob은 각각 자신의 비밀키로 사용할 임의의 Prime Number를 선택합니다.
+                X(alice)    X(bob)
+    [Step03] Alice와 Bob은 각각 공개키를 생성하며 해당 키를 상대에게 전송합니다.
+                y(alice)=g^x(alice) mod p     y(bob)=g^x(bob) mod p
+    [Step04] Alice와 Bob은 상대방의 공개키와 자신의 개인키를 이용하여 키를 획득합니다.
+                Key=y(bob)^x(alice) mod p     Key=y(alice)^x(bob) mod p
+
+    DLP(Discrete Logarithm Problem) => a^x=b를 계산하는 것은 쉽지만 x=log(a)b를 만족하는 x는 구하기는 어렵다는 것에서 나온 문제
+
+    ex)         X(alice) = 29   X(bob) = 41     g = 19
+                y(alice) = 19^29     y(bob) =19^41
+                Key = (19^41)^29    Key = (19^29)^41
+
+    * mod계산
+
+        3^100 mod 23 = 81^25 mod 23 = (23 * 3 + 12)^25 mod 23 = 12^25 mod 23
