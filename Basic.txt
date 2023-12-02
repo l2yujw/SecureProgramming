@@ -6,3 +6,20 @@
     암호화 -> 단반향 암호화 -> Hash -> MAC, HMAC -> MDC
           -> 양방향 암호화 -> 대칭 키 암호 -> 블록 암호 -> 스트림 암호
                          -> 비대칭 키 암호 -> 소인수 분해(RSA, Rabin) -> 타원곡선(ECC, ECDSA)
+
+    * Modular Inverse
+    A X A^-1 ≡ 1 (modC)
+    (A X A^-1) mod C = 1 mod C
+    (A X A^-1) mod C = 1
+    ! C와 서로소인 수만 Modular Inverse (mod C)를 가질 수 있음
+
+    [Step 01]
+    B의 값을 0부터 C-1까지 설정
+    [Step 02]
+    B값에 대해 A X B mod C 를 계산
+    [Step 03]
+    A mod C의 Modular Inverse는 A X B mod C = 1 을 만족하는 B의 값임
+
+    ex) 3 (mod 7)
+        3 X 5 ≡ 15 ≡ 1 (mod 7)
+        B = 5

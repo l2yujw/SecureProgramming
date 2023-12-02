@@ -1,0 +1,21 @@
+* RSA
+
+    [Step 01] Prime Number인 p, q를 선택하고 K를 계산
+                    p, q    K = p X q
+    [Step 02] (p−1)과 (q−1)의 LCM인 φ 를 계산합니다.
+                    φ=LCM((p−1)×(q−1))
+    [Step 03] φ와 서로소인 소수 e를 암호화키로 결정합니다.
+                    e
+    [Step 04] 복호화 키인 d를 결정합니다.
+                    d×e mod φ = 1
+    [Step 05] Message Encryption & Decryption
+              Message Encryption =>  c = m^e mod K
+              Message Decryption =>  m = c^d mod K
+
+    ex) p = 11, q = 13 / K = p X q = 11 X 13 = 143
+        φ = LCM((p−1)×(q−1)) = LCM(10×12) = 60
+        e = 17
+        d = 53 => 53 X 17 mod 60 = 1
+        m = 6인 경우
+        c = 6^17 mod 143 = 41
+        m = 41^53 mod 143 = 6
