@@ -1,7 +1,7 @@
 import java.math.BigInteger;
 import java.util.Random;
 
-public class Test {
+public class ECDHETest {
 
     public static void main(String[] args) {
         System.out.println("[Basic Test]");
