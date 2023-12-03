@@ -6,6 +6,7 @@
       <sourceFolder url="file://$MODULE_DIR$/DiffieHellman" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/RSA" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/DigitalSignSignature" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/DigitalSignSignatureImport" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/ECDHE" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
