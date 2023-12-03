@@ -1,0 +1,23 @@
+* Elliptical Curve Digital Signature Algorithm
+
+    [Stepo1] 임의의 Eliptic Curve를 선택합니다.
+    [Step02] 임의의 자연수 d를 비밀키로 선택합니다. (Elliptic Curve의 차수 (n)보다 작아야합니다.)
+    [Step03] 비밀키와 Generator Point (G)를 곱해 공개키 Q Point를 생성합니다.
+    [Step04] Elliptic Curve의 차수 (n)보다 작은 임의의 자연수 K를 선택합니다. (Elliptic Curve의 차수 (n)보다 작아야합니다.)
+    [Step05] kG를 계산해 나온 좌표의 x 좌표를 n으로 나눈 나머지를 r이라고 합니다.
+    [Step06] 서명할 메시지를 자연수로 m이라고 가정합니다.
+    [Step07] Hash를 수행한 메시지 <라고 합니다. (메시지에 Hash를 수행해 Bit의 수가 차수의 Bit수를 넘지 않게합니다.) [Step081 k-l(x+ rd) mod n을 구해 이를 s라고 합니다.
+    [Step09] r 또는 5가 0이라면 다시 K를 생성하고 아니면 (r, s)이 서명값이 됩니다.
+
+    * 증명
+    u = zs^-1 mod n
+    v = rs-1 mod n
+    P = uG + vQ = uG + vdG      → Q = dG
+    = (u + vd)G
+    =（zs^-1 + rs^-1d)G
+    = ( z+ rd )s^(-1)G
+    = (z + rd)(k^-1(z+ rd))^(-1)G
+    =（ z + rd ）（ z + rd）^(-1)(k^-1)^(-1)G
+    = kG
+    P(x) = r mod n인 경우 Signature가 유효합니다
+

@@ -1,0 +1,86 @@
+* AES
+
+    * Galois Field
+        GF(p^n) => GF(2^8)
+        1Byte를 표현하는 0부터 2^8-1 까지의 2^8개의 원소에만 관심을 가짐
+
+        * GF(2^8)에서 (+) 연산
+            x^7 + x^3 + x^2 + x + 1 (+) x^4 + x^3 + 1
+                x^7 + x^4 + 2x^3 + x^2 + x + 2
+                모든 계수를 2로 나눈 나머지로 변환합니다
+
+                       x^7 + x^4 + x^2 + x
+                        [1 0 0 1 0 1 1 0]
+
+            [ 1 0 0 0 1 1 1 1 ]
+            [ 0 0 0 1 1 0 0 1 ]
+                    XOR
+            [ 1 0 0 1 0 1 1 0 ]
+            Galosis Field에서의 덧셈은 역변환이 가능합니다.
+
+        * GF(2^8)에서 (x) 연산
+            (2^6 + 2^4 + 2^2) (x) (2^3 + 2^2 + 1)
+            2^9 + 2^8 + 2^7 + 2*2^6 + 2^5 + 2*2^4 + 2^2
+                모든 계수를 2로 나눈 나머지로 변환합니다.
+                2^9 + 2^8 + 2^7 + 2^5 + 2^2
+               [ x^9 + x^8 + x^7 + x^5 + x^2 ]
+
+        * 닫힌 연산으로 만들기 위해, 인수분해가 불가능한 다항식인 x^8 + x^4 + x^3 + x + 1로 나눕니다.
+            @ 암호화를 강력하게 만들기 위해 특별히 선택된 식 => x^8 + x^4 + x^3 + x + 1
+            (x^9 + x^8 + x^7 + x^5 + x^2) / ( x^8 + x^4 + x^3 + x + 1 )
+                    = x^7 + x^3 + 1
+            84(X)13 = 137
+
+
+        * 7차 항의 계수가 1인 임의의 다항식에 x를 곱했을 경우
+            ( x^7 + a(6)x^6 + a(5)x^5 + a(4)x^4 + a(3)x^3 + a(2)x^2 + a(1)x + a(0)1) (X) x
+
+            ( x^8 + a(6)x^7 + a(5)x^6 + a(4)x^5 + a(3)x^4 + a(2)x^3 + a(1)x^2 + a(0)x) / ( x^8 + x^4 + x^3 + x + 1 )
+                    => [ a(6) a(5) a(4) a(3) a(2)-1 a(1) a(0)-1 1 ]
+            즉, 갈루아 필드에서의 (X)연산은 좌측으로 1 bit Shift 하고 0x1b를 XOR한 연산과 같습니다.
+
+        $   a (X) 1 = a
+            a (X) 2 = { First bit가 0인 경우
+                        a << 1
+                        First bit가 1인 경우
+                        a << 1 XOR 0x1b    }
+            a (X) 3 = a (X) ( 2 (+) 1 ) = a (X) 2 (+) 1
+
+
+        * 3을 곱한 경우 X + 1을 곱한 것과 같습니다.
+            a (X) 3 = ( a << 1 ) XOR a
+
+    * Add round key 변환
+        1. 앞의 Round의 마지막 4Byte를 왼쪽으로 Rotate합니다.
+        2. sbox를 이용해 치환합니다.
+        3. 해당 Round의 상수값과 XOR합니다.
+        4. 앞 Round의 첫 4Byte와 XOR합니다.
+
+
+    * AES Encryption & Decryption
+    AES Decryption
+    [0 Round] Message와 0 Round Key를 XOR합니다.
+
+    [1 Round ~ 9 Round]
+        1. Substitution 변환을 수행합니다.
+        2. Rotation 변환을 수행합니다.
+        3. Mix Column 변환을 수행합니다.
+        4. 해당 Round의 Round Key와 XOR를 수행합니다.
+    [10 Round]
+    1 ~ 9 Round를 동일하게 수행하지만 Mix Column은 수행하지 않습니다.
+        1. Substitution 변환을 수행합니다.
+        2. Rotation 변환을 수행합니다.
+        3. 이번 Round의 Round Key와 XOR를 수행합니다.
+
+    AES Decryption (10 -> 0)
+    [0 Round]
+        • 0 Round Key를 XOR합니다.
+        • Substitution Inverse 변환을 수행합니다.
+        • Rotation Inverse 변환을 수행합니다.
+    [1 Round ~ 9 Round]
+        • Mix Column Inverse 변환을 수행합니다.
+        • 해당 Round의 Round Key와 XOR를 수행합니다.
+        • Substitution Inverse 변환을 수행합니다.
+        • Rotation Inverse 변환을 수행합니다.
+    [10 Round]
+        • 10 Round의 Round Key와 XOR를 수행합니다.
